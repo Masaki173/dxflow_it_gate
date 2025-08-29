@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* カスタムクラス */
+.header-spacing {
+    margin-bottom: 150px;
+}
+
+.container-spacing {
+    margin-top: 150px;
+}
