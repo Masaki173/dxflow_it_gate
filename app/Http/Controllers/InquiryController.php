@@ -12,6 +12,11 @@ use Illuminate\Support\Str;
 
 class InquiryController extends Controller
 {
+    // 問い合わせ画面表示
+    public function inquiry(){
+     return view('employees.inquiry');
+}
+    // 問い合わせ保存
      public function store(Request $request)
     {
         $attachmentPath = null;
@@ -38,6 +43,8 @@ class InquiryController extends Controller
          return redirect()->route('inquiry.form')
                      ->with('success', 'フォームの送信が完了しました');
     }
+
+    // IT部門画面
     public function itTasks()
     {   
          $items = Inquiry::with('user')
@@ -46,7 +53,7 @@ class InquiryController extends Controller
         $departments = ItDepartment::all();
         return view('departments.it.index', compact('items', 'departments'));
     }
-
+    // ソフトウェア部門画面
 public function softwareTasks()
     {
         $softwareDept = ItDepartment::where('name', 'Software')->firstOrFail();
@@ -61,6 +68,7 @@ public function softwareTasks()
     ->get();
         return view('departments.software.index', compact('items'));
     }
+    // ハードウェア部門画面
 public function hardwareTasks()
     {
         $hardwareDept = ItDepartment::where('name', 'Hardware')->firstOrFail();
@@ -75,6 +83,7 @@ public function hardwareTasks()
     ->get();
         return view('departments.hardware.index', compact('items'));
     }
+    // ネットワーク部門画面
 public function networkTasks()
     {
         $networkDept = ItDepartment::where('name', 'Network')->firstOrFail();
@@ -88,7 +97,7 @@ public function networkTasks()
     ->get();
      return view('departments.network.index', compact('items'));
 }
-
+// IT部門のタスク割り当て
 public function assign(Request $request, Inquiry $inquiry)
 {
     InquiryAssignment::create([
@@ -102,6 +111,7 @@ public function assign(Request $request, Inquiry $inquiry)
 
     return redirect()->back()->with('success', '問い合わせを振り分けました');
 }
+// IT部門の成功ログ処理
 public function itHandled($id)
     {
         $inquiry = Inquiry::findOrFail($id);
@@ -118,6 +128,7 @@ public function itHandled($id)
 
         return redirect()->route('it.index')->with('success', '依頼を対処済みにしました。');
     }
+//  分岐3部門のログ処理
 public function markHandled(Request $request, $inquiryId)
 {
     $request->validate([
@@ -138,6 +149,7 @@ public function markHandled(Request $request, $inquiryId)
     return redirect()->back()->with('success', '処理結果を記録しました');
 }
 
+// ITログ表示
 public function itLogs()
 {
 $logs = InquiryLog::with(['inquiry', 'user'])
@@ -148,6 +160,7 @@ $logs = InquiryLog::with(['inquiry', 'user'])
     ->get();
     return view('departments.it.logs', compact('logs'));
 }
+// ハードウェアログ表示
 public function hardwareLogs()
 {
    
@@ -163,6 +176,8 @@ public function hardwareLogs()
 
     return view('departments.hardware.logs', compact('logs'));
 }
+
+// ソフトウェアログ表示
 public function softwareLogs()
 {
     $softwareDept = ItDepartment::where('name', 'Software')->firstOrFail();
@@ -176,6 +191,8 @@ public function softwareLogs()
 
     return view('departments.software.logs', compact('logs'));
 }
+
+// ネットワークログ表示
 public function networkLogs()
 {
     $networkDept = ItDepartment::where('name', 'Network')->firstOrFail();
@@ -189,6 +206,7 @@ public function networkLogs()
 
     return view('departments.network.logs', compact('logs'));
 }
+// ログ詳細追加
 public function updateDetails(Request $request, $id)
 {
     $request->validate([
@@ -202,6 +220,7 @@ public function updateDetails(Request $request, $id)
     return back()->with('success', '詳細を更新しました。');
 }
 
+// 全部門ログ一覧
 public function overviewLogs()
     {
     $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.departments'])
@@ -211,5 +230,24 @@ public function overviewLogs()
 
     return view('departments.overview.logs', compact('logs'));
     }
-       
+
+// 管理者ダッシュボード
+public function adminDashboard(){
+return view('departments.admin.dashboard');
+}
+
+// 管理者、処理済み問い合わせ管理画面
+public function manageLogs(){
+$logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.departments'])
+->orderBy('updated_at', 'desc')
+->get();
+return view('departments.admin.logs', compact('logs'));
+}
+
+// 問い合わせ削除
+public function deleteInquiry($id){
+$inquiry = Inquiry::findOrFail($id);
+$inquiry->delete();
+return redirect()->route('manage.logs')->with('success', '問い合わせを削除しました。');
+}
     }

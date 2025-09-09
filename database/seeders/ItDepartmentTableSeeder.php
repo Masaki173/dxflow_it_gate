@@ -14,6 +14,7 @@ class ItDepartmentsTableSeeder extends Seeder
      */
     public function run(): void
     {
+        // 部門のテーブル管理
          DB::table('it_departments')->insert([
             ['id' => 1, 'name' => 'Hardware'],
             ['id' => 2, 'name' => 'Software'],

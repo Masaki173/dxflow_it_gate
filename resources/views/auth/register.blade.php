@@ -9,7 +9,7 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Name -->
+        <!-- 名前 -->
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
             名前
@@ -38,7 +38,7 @@
     <x-input-error :messages="$errors->get('role')" class="mt-2" />
     </div>
 
-        <!-- Email Address -->
+        <!-- メールアドレス -->
         <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 メールアドレス
@@ -60,7 +60,7 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Confirm Password -->
+        <!-- パスワード確認 -->
         <div class="mt-4">
             <label for="password_confirmation" :value="__('Confirm Password')" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
              パスワードを再入力してください
@@ -77,14 +77,11 @@
         </button>
          </div>
     </form>
-    @if (Route::has('login'))
-             <!-- <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400"> -->
-                    
-                    <a href="{{ route('login') }}" class="text-indigo-600 hover:underline dark:text-indigo-400">
-                        ログイン
-                    </a>
-                </p>
-            @endif
+    <form method="GET" action="{{ route('admin.dashboard') }}">
+                <button type="submit"
+                    class="px-5 py-2 border border-gray-300 rounded text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                 戻る
+                </button>
         </div>
     </div>
 </x-guest-layout>

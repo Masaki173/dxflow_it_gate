@@ -11,13 +11,18 @@ class ItDepartment extends Model
     protected $table = 'it_departments';
 
 
-    // const HARDWARE = 1;
-    // const SOFTWARE = 2;
-    // const NETWORK = 3;
 
     protected $fillable = ['name'];
-
-
+    
+public function getNameJaAttribute()
+    {
+        return match($this->name) {
+            'Hardware' => 'ハードウェア',
+            'Software' => 'ソフトウェア',
+            'Network'  => 'ネットワーク',
+        };
+    }
+// 関連テーブル設定
     public function inquiryAssignments()
     {
         return $this->hasMany(InquiryAssignment::class, 'department_id');

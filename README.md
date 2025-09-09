@@ -1,61 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# プロジェクト名（Task Management System Example）
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# プロジェクト概要
 
-## About Laravel
+社内問い合わせ管理を効率化する Laravel プロジェクトです。  
+部門ごとの対応可否やログ管理、ユーザーアクセス制御（Gate）を実装しています
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **フロントエンド**: Blade, Tailwind CSS  
+- **バックエンド**: Laravel 12.22.1, PHP 8.1.2 
+- **データベース**: SQLite  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## 機能
+- 部門ごとの問い合わせ振り分け
+- IT, ソフトウェア, ハードウェア, ネットワーク部門のログ管理
+- 対応可・対応不可の記録と履歴管理
+- Gate によるユーザーアクセス制御
+- 添付ファイル管理（ストレージに保存）
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# 目的
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+ポートフォリオとしての公開
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Laravel・PHP を用いた Web アプリ開発スキルの証明
 
-## Laravel Sponsors
+認証・認可（Gate）の実装経験のアピール
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# 使用技術
 
-### Premium Partners
+Backend: Laravel 12.22.1 (PHP 8.2.29 )
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Frontend: Blade / TailwindCSS
 
-## Contributing
+Database: SQLite
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+認可: Laravel Gate
 
-## Code of Conduct
+その他: Composer, Git, GitHub Actions
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 主な機能
 
-## Security Vulnerabilities
+ユーザー登録 / ログイン（認証機能）
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Gate を用いた ロールベースのアクセス制御
+
+管理者: ユーザー管理、全データへのアクセス権限
+
+一般ユーザー: 自分のデータのみ閲覧・編集可能
+
+CRUD 機能（データの作成・編集・削除）
+
+
+
+# セットアップ方法
+
+開発環境で動かす手順は以下の通りです。
+
+### 前提条件
+- Docker / Docker Compose がインストールされていること
+
+# 1. リソースリポジトリをクローン
+git clone https://github.com/Masaki173/dxflow_it_gate_resource.git
+cd laravel_docker_sample
+# 2. リソースフォルダ内にLaravelプロジェクトをクローン
+git clone https://github.com/Masaki173/dxflow_it_gate.git
+# 3. Docker コンテナ起動
+   docker-compose up -d
+# 4. コンテナに入りLaraveフォルダでLaravel セットアップ
+   docker exec -it app bash
+   cd laravel-project
+   composer install
+   cp .env.example .env
+   php artisan key:generate
+   php artisan migrate
+
+# Node 依存関係インストール＆ビルド
+   npm install
+   npm run dev
+
+
+http://localhost:8000
+ にアクセスして利用できます。(ポートの設定をご確認ください)
+
+・挑戦したこと
+
+Laravel Gate を用いた認可処理の設計・実装
+
+MVC アーキテクチャの応用
+
+データベースマイグレーション・シーディングによる効率的な開発
+
+GitHub を用いたブランチ作業（main / develop）
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is a personal portfolio project for demonstrating Laravel, PHP, and Gate usage.  
+It is not intended for public use or redistribution.

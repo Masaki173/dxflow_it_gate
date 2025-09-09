@@ -20,9 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      */
   public function boot()
 {
-    // Gate::define('access-it', function ($user) {
-    //     return $user->role === 'it';
-    // });
+// 各部門の権限設定
+Gate::define('access-admin', fn($user) => $user->role_id === 1);
 $allowedRoles = [3, 4, 5, 6];  
 Gate::define('overview-logs', function ($user) use ($allowedRoles) {
         return in_array($user->role_id, $allowedRoles, true);

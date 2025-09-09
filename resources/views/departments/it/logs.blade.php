@@ -35,18 +35,20 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">依頼者</th>
+                            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">部署</th>
                             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">発生箇所</th>
                             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">内容</th>
                             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">ファイル</th>
-                            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">対応日時</th>
                             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">詳細</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         @forelse ($logs as $log)
                             <tr>
-                                <td class="px-4 py-2 border-r border-gray-300">{{ $log->user->name}}</td>
+                                <td class="px-4 py-2 border-r border-gray-300">{{ $log->user->name }}</td>
+                                <td class="px-4 py-2 border-r border-gray-300">{{ $log->inquiry->department }}</td>
                                 <td class="px-4 py-2 border-r border-gray-300">
+                        <!-- 各部門の問題発生箇所表示 -->
                          @if($log->inquiry->issue_type == 1) {{-- ハードウェア --}}
                         {{ \App\Models\Inquiry::HARDWARE_OPTIONS[$log->inquiry->hardware_option]}}
                          @elseif($log->inquiry->issue_type == 2) {{-- ソフトウェア --}}
@@ -61,7 +63,6 @@
                                 {{ basename($log->attachment) }}
                                 </a>
                                 </td>
-                                <td class="px-4 py-2 border-r border-gray-300">{{ $log->updated_at->format('Y-m-d H:i') ?? '-' }}</td>
                                 <td class="px-4 py-2 border-r border-gray-300">
                                 @if($log->details)
                                  <div class="mb-2 p-2 bg-gray-100 dark:bg-gray-700 rounded">
@@ -87,7 +88,7 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="px-4 py-2 text-center text-gray-500">
-                                    ログがありません
+                                    ログはありません
                                 </td>
                             </tr>
                         @endforelse

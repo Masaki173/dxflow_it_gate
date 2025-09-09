@@ -30,7 +30,7 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <h3 class="text-lg font-bold mb-2">対応可</h3>
+            <h3 class="text-lg font-bold mb-2">対処済み</h3>
             <table class="table-fixed w-full divide-y divide-gray-300">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
@@ -50,8 +50,8 @@
                             </td>
                             <td class="px-4 py-2 border-r border-gray-300">{{ Str::limit($log->content, 50) }}</td>
                             <td class="px-2 py-2 border-r border-gray-300 w-36">
-                            <a href="{{ Storage::url($log->attachment) }}" target="_blank" class="block w-full truncate hover:underline">
-                            {{ basename($log->attachment) }}
+                            <a href="{{ Storage::url($log->inquiry->attachment) }}" target="_blank" class="block w-full truncate hover:underline">
+                            {{ basename($log->inquiry->attachment) }}
                             </a>
                             </td>
                             <td class="px-4 py-2 border-r border-gray-300">
@@ -97,14 +97,14 @@
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse ($logs->where('can_handle', false) as $log)
                         <tr>
-                            <td class="px-4 py-2 border-gray-300">{{ $log->inquiry->user->name ?? '不明' }}</td>
-                            <td class="px-4 py-2 border-gray-300">
+                            <td class="px-4 py-2 border-r border-gray-300">{{ $log->inquiry->user->name ?? '不明' }}</td>
+                            <td class="px-4 py-2 border-r border-gray-300">
                                 {{ \App\Models\Inquiry::NETWORK_OPTIONS[$log->inquiry->network_option] ?? '不明' }}
                             </td>
-                            <td class="px-4 py-2 border-gray-300">{{ Str::limit($log->content, 50) }}</td>
+                            <td class="px-4 py-2 border-r border-gray-300">{{ Str::limit($log->content, 50) }}</td>
                             <td class="px-2 py-2 border-r border-gray-300 w-36">
-                            <a href="{{ Storage::url($log->attachment) }}" target="_blank" class="block w-full truncate hover:underline">
-                            {{ basename($log->attachment) }}
+                            <a href="{{ Storage::url($log->inquiry->attachment) }}" target="_blank" class="block w-full truncate hover:underline">
+                            {{ basename($log->inquiry->attachment) }}
                             </a>
                             </td>
                             <td class="px-4 py-2 border-gray-300">

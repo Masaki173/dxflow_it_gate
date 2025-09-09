@@ -53,7 +53,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
+    // 部署の設定
       const ROLES = [
         1 => 'admin',
         2 => 'employee',
@@ -62,16 +62,17 @@ class User extends Authenticatable
         5 => 'hardware',
         6 => 'network'
     ];
-
+    // 部署名を返す
     public function roleName()
     {
         return self::ROLES[$this->role_id] ?? 'unknown';
     }
-
+    // 管理者判定(必要になった場合)
     public function isAdmin()
     {
         return $this->role_id === 1;
     }
+    // リレーション
      public function inquiries()
     {
         return $this->hasMany(Inquiry::class, 'user_id');

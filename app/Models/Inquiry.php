@@ -43,26 +43,30 @@ const NETWORK_OPTIONS = [
         2 => 'VPN',
         3 => 'その他',
     ];
+
+    // 問題発生箇所を返す
     public function issueTypeName()
     {
         return self::ISSUE_TYPES[$this->issue_type] ?? 'unknown';
     }
-
+    // ハードウェアの問題個所
     public function hardwareOptionName()
     {
         return self::HARDWARE_OPION[$this->hardware_option] ?? 'unknown';
     }
 
-
+    // ソフトウェアの問題個所
     public function softwareOptionName()
     {
         return self::SOFTWARE_OPTION[$this->software_option] ?? 'unknown';
     }
-
+    // ネットワークの問題個所
      public function networkOptionName()
     {
         return self::NETWORK_OPTION[$this->network_option] ?? 'unknown';
     }
+    
+    // リレーション
     public function user() {
     return $this->belongsTo(User::class);
 }

@@ -12,7 +12,7 @@ class InquiryAssignment extends Model
         'inquiry_id',
         'department_id',
     ];
-
+// 関連テーブル設定
     public function inquiry()
 {
     return $this->belongsTo(Inquiry::class, 'inquiry_id');
