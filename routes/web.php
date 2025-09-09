@@ -3,25 +3,15 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
-// Route::get('/login', function () {
-//     return view('auth.login');
-// });
-// Route::get('/register', function () {
-//     return view('auth.register');
-// });
-// Route::get('/', function () {
-//     if (Auth::check()) {
-//         return redirect()->route('inquiry');
-//     }
-//     return redirect()->route('login');
-// });
+// 部署によるページルートの分岐
 Route::get('/', function () {
     if(auth()->check()){
         $user = auth()->user();
         switch($user->roleName()){
             case 'admin':
-                return redirect()->route('register');
+                return redirect()->route('admin.dashboard');
             case 'employee':
                 return redirect()->route('inquiry.form'); 
             case 'it':
@@ -39,21 +29,13 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/inquiry', function () {
-    return view('inquiry');
-})->middleware(['auth', 'verified'])->name('inquiry.form');
+// 社員ログイン時ページ
+Route::middleware('auth')->group(function () {
+Route::get('/inquiry', [InquiryController::class, 'inquiry'])->name('inquiry.form');
+Route::post('/store', [InquiryController::class, 'store'])->name('inquiry.store');
+});
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-// Route::middleware('auth')->group(function () {
-//     Route::get('/department-tasks/{department}', [InquiryController::class, 'departmentTasks'])
-//         ->name('departments.index')
-//         ->middleware('can:access-department,department'); // Gateで権限チェック
-// });
-
+// IT部門ログイン時ページ
 Route::middleware(['auth', 'can:access-it'])->prefix('it')->group(function () {
     Route::get('/tasks', [InquiryController::class, 'itTasks'])->name('it.index');
     Route::post('/assign/{inquiry}', [InquiryController::class, 'assign'])->name('it.assign');
@@ -62,6 +44,8 @@ Route::middleware(['auth', 'can:access-it'])->prefix('it')->group(function () {
     Route::patch('/logs/{id}/update-details', [InquiryController::class, 'updateDetails'])
     ->name('it.updateDetails');
 });
+
+// ソフトウェア部門ログイン時ページ
 Route::middleware(['auth', 'can:access-software'])->prefix('software')->group(function () {
     Route::get('/tasks', [InquiryController::class, 'softwareTasks'])->name('software.index');
     Route::post('/handled/{inquiryId}/', [InquiryController::class, 'markHandled'])->name('software.markHandled');
@@ -69,7 +53,8 @@ Route::middleware(['auth', 'can:access-software'])->prefix('software')->group(fu
     Route::patch('/logs/{id}/update-details', [InquiryController::class, 'updateDetails'])
     ->name('software.updateDetails');
 });
-// Route::middleware(['auth', 'can:access-hardware'])->get('/hardware-tasks', [PostController::class, 'indexHardware'])->name('tasks.hardware');
+
+// ハードウェア部門ログイン時ページ
 Route::middleware(['auth', 'can:access-hardware'])->prefix('hardware')->group(function () {
     Route::get('/tasks', [InquiryController::class, 'hardwareTasks'])->name('hardware.index');
     Route::post('/handled/{inquiryId}/', [InquiryController::class, 'markHandled'])->name('hardware.markHandled');
@@ -77,7 +62,8 @@ Route::middleware(['auth', 'can:access-hardware'])->prefix('hardware')->group(fu
     Route::patch('/logs/{id}/update-details', [InquiryController::class, 'updateDetails'])
     ->name('hardware.updateDetails');
 });
-// Route::middleware(['auth', 'can:access-network'])->get('/network-tasks', [PostController::class, 'indexNetwork'])->name('tasks.network');
+
+// ネットワーク部門ログイン時ページ
 Route::middleware(['auth', 'can:access-network'])->prefix('network')->group(function () {
     Route::get('/tasks', [InquiryController::class, 'networkTasks'])->name('network.index');
     Route::post('/handled/{inquiryId}/', [InquiryController::class, 'markHandled'])->name('network.markHandled');
@@ -88,15 +74,16 @@ Route::middleware(['auth', 'can:access-network'])->prefix('network')->group(func
 Route::middleware(['auth', 'can:overview-logs'])->group(function () {
     Route::get('/overview', [InquiryController::class, 'overviewLogs'])->name('overview.logs');
 });
-Route::post('store', 'App\Http\Controllers\InquiryController@store')->name('inquiry.store');
-// Route::post('/it-log/update/{id}', [InquiryController::class, 'updateDetails'])->name('log.updateDetail');
-// Route::get('/logs/{type}', [InquiryController::class, 'logIndex'])
-//     ->where('department', 'network|hardware|software')
-//     ->name('logs.index');
-Route::middleware('auth')->group(function () {
-    Route::get('/department/{department}/logs', [InquiryController::class, 'logIndex'])
-        ->name('logs.index');
+
+// 管理者ログイン時ページ
+Route::middleware(['auth', 'can:access-admin'])->group(function () {
+    Route::get('/dashboard', [InquiryController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('/logs', [InquiryController::class, 'manageLogs'])->name('manage.logs');
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
+    Route::delete('/delete/{id}', [InquiryController::class, 'deleteInquiry'])->name('delete.inquiry');
 });
+
 
 require __DIR__.'/auth.php';
 

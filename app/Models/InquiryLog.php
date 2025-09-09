@@ -16,12 +16,9 @@ class InquiryLog extends Model
     public function user() {
     return $this->belongsTo(User::class);
 }
+// 問い合わせとのリレーション
     public function inquiry()
 {
     return $this->belongsTo(Inquiry::class, 'inquiry_id');
-}
-public function department()
-{
-    return $this->belongsTo(ItDepartment::class, 'department_id');
 }
 }

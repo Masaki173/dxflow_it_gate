@@ -29,9 +29,10 @@
                     <table class="table-fixed w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">ID</th>
+                                <!-- <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">ID</th> -->
                                 <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">ユーザー</th>
                                 <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">部署</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">メールアドレス</th>
                                 <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">問題発生箇所</th>
                                 <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">内容</th>
                                 <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">ファイル</th>
@@ -41,9 +42,10 @@
                         <tbody class="divide-y divide-gray-300 bg-white">
                             @foreach ($items as $item)
                             <tr>
-                                <td class="px-4 py-2 border-r border-gray-300">{{ $item->id }}</td>
+                                <!-- <td class="px-4 py-2 border-r border-gray-300">{{ $item->id }}</td> -->
                                 <td class="px-4 py-2 border-r border-gray-300">{{ $item->user->name }}</td>
                                 <td class="px-4 py-2 border-r border-gray-300">{{ $item->department }}</td>
+                                <td class="px-4 py-2 border-r border-gray-300 break-words">{{ $item->user->email }}</td>
                                 <td class="px-4 py-2 border-r border-gray-300">
                                     {{ \App\Models\Inquiry::HARDWARE_OPTIONS[$item->hardware_option] ?? '不明' }}
                                 </td>
@@ -57,7 +59,7 @@
                                     <form method="POST"
                                         action="{{ route('hardware.markHandled', $item->id) }}">
                                         @csrf
-                                        <select name="can_handle" required class="border rounded px-2 py-1">
+                                        <select name="can_handle" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm">
                                             <option value="1">対応済</option>
                                             <option value="0">対応不可</option>
                                         </select>

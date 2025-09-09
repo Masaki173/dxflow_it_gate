@@ -27,15 +27,16 @@
     </div>
         </header>
 <table class="table-fixed w-full divide-y divide-gray-300">
-    <!-- <table class="table-fixed border-collapse border border-gray-300 w-full"> -->
     <thead class="bg-gray-50">
         <tr>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">依頼人</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 w-30">依頼人</th>
             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">部署</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 w-64">メールアドレス</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">メールアドレス</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">問題種類</th>
             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">発生箇所</th>
             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">内容</th>
             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 w-36">ファイル</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">問い合わせ日時</th>
             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">対応</th>
         </tr>
     </thead>
@@ -44,12 +45,15 @@
             <tr class="divide-x divide-gray-300">
                 <td class="px-4 py-2 border-r border-gray-300">{{ $item->user->name }}</td>
                 <td class="px-4 py-2 border-r border-gray-300">{{ $item->department }}</td>
-                <td class="px-4 py-2 border-r border-gray-300 text-left w-64">{{ $item->user->email }}</td>
+                <td class="px-4 py-2 border-r border-gray-300 break-words">{{ $item->user->email }}</td>
+                <td class="px-4 py-2 border-r border-gray-300 break-words">
+                    {{ \App\Models\Inquiry::ISSUE_TYPES[$item->issue_type] }}</td>
                  <td class="px-4 py-2 border-r border-gray-300">
+                    <!-- 各部門の問題発生箇所表示 -->
                     @if($item->issue_type == 1) {{-- ハードウェア --}}
-                    {{ \App\Models\Inquiry::HARDWARE_OPTIONS[$item->hardware_option]}}
+                    {{ \App\Models\Inquiry::HARDWARE_OPTIONS[$item->software_option] }}
                     @elseif($item->issue_type == 2) {{-- ソフトウェア --}}
-                    {{ \App\Models\Inquiry::SOFTWARE_OPTIONS[$item->software_option]}}
+                    {{ \App\Models\Inquiry::SOFTWARE_OPTIONS[$item->software_option] }}
                     @elseif($item->issue_type == 3) {{-- ネットワーク --}}
                     {{ \App\Models\Inquiry::NETWORK_OPTIONS[$item->network_option] }}
                     @endif
@@ -61,7 +65,7 @@
                     </a>
                 </td>
                 <td class="px-4 py-2 border-r border-gray-300">
-                    {{ \App\Models\Inquiry::ISSUE_TYPES[$item->issue_type] }}
+                {{ $item->created_at->format('Y-m-d H:i') ?? '-' }}
                 </td>
         <div class="flex flex-col sm:flex-row sm:space-x-2">
         <td class="px-4 py-2 border-r border-gray-300">
@@ -77,7 +81,7 @@
         <select name="department"
         class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm">
         @foreach($departments as $dept)
-            <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+            <option value="{{ $dept->id }}">{{ $dept->name_ja }}</option>
         @endforeach
         </select>
         <button type="submit"
@@ -85,8 +89,8 @@
         振り分け
         </button>
     </form>
+     </td>
    </div>
- </td>
 </tr>
         @endforeach
     </tbody>
