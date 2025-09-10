@@ -12,16 +12,8 @@ class ItDepartment extends Model
 
 
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'code'];
     
-public function getNameJaAttribute()
-    {
-        return match($this->name) {
-            'Hardware' => 'ハードウェア',
-            'Software' => 'ソフトウェア',
-            'Network'  => 'ネットワーク',
-        };
-    }
 // 関連テーブル設定
     public function inquiryAssignments()
     {

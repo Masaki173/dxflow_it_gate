@@ -167,7 +167,7 @@ public function hardwareLogs()
     $hardwareDept = ItDepartment::where('name', 'Hardware')->firstOrFail();
 
     
-    $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.departments'])
+    $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.department'])
         ->whereHas('inquiry.assignments', function($q) use ($hardwareDept) {
             $q->where('department_id', $hardwareDept->id);
         })
@@ -182,7 +182,7 @@ public function softwareLogs()
 {
     $softwareDept = ItDepartment::where('name', 'Software')->firstOrFail();
 
-    $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.departments'])
+    $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.department'])
         ->whereHas('inquiry.assignments', function($q) use ($softwareDept) {
             $q->where('department_id', $softwareDept->id);
         })
@@ -197,7 +197,7 @@ public function networkLogs()
 {
     $networkDept = ItDepartment::where('name', 'Network')->firstOrFail();
 
-    $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.departments'])
+    $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.department'])
         ->whereHas('inquiry.assignments', function($q) use ($networkDept) {
             $q->where('department_id', $networkDept->id);
         })
@@ -223,7 +223,7 @@ public function updateDetails(Request $request, $id)
 // 全部門ログ一覧
 public function overviewLogs()
     {
-    $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.departments'])
+    $logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.department'])
     ->where('can_handle', false)
     ->orderBy('updated_at', 'desc')
     ->get();
@@ -238,7 +238,7 @@ return view('departments.admin.dashboard');
 
 // 管理者、処理済み問い合わせ管理画面
 public function manageLogs(){
-$logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.departments'])
+$logs = InquiryLog::with(['inquiry.user', 'inquiry.assignments.department'])
 ->orderBy('updated_at', 'desc')
 ->get();
 return view('departments.admin.logs', compact('logs'));
