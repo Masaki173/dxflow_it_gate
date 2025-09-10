@@ -29,7 +29,6 @@
                     <table class="table-fixed w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
-                                <!-- <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">ID</th> -->
                                 <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">ユーザー</th>
                                 <th class="px-4 py-2 text-left text-sm  font-medium text-gray-600">部署</th>
                                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">メールアドレス</th>
@@ -42,7 +41,6 @@
                         <tbody class="divide-y divide-gray-300 bg-white">
                             @foreach ($items as $item)
                             <tr>
-                                <!-- <td class="px-4 py-2 border-r border-gray-300">{{ $item->id }}</td> -->
                                 <td class="px-4 py-2 border-r border-gray-300">{{ $item->user->name }}</td>
                                 <td class="px-4 py-2 border-r border-gray-300">{{ $item->department }}</td>
                                 <td class="px-4 py-2 border-r border-gray-300 break-words">{{ $item->user->email }}</td>

@@ -42,8 +42,8 @@
                                 <td class="px-4 py-2 border-r border-gray-300">{{ $log->user->name}}</td>
                                 <td class="px-4 py-2 border-r border-gray-300">
                                     <!-- 対応部門の表示 -->
-                                  @if($log->inquiry->assignments->isNotEmpty() && $log->inquiry->assignments->first()->departments)
-                               {{ $log->inquiry->assignments->first()->departments->name_ja  }}
+                                  @if($log->inquiry->assignments->isNotEmpty() && $log->inquiry->assignments->first()->department)
+                              {{ __('departments.' . $log->inquiry->assignments->first()->department->code) }}
                                 @else
                                   IT
                                 @endif

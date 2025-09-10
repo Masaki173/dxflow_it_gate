@@ -81,7 +81,7 @@
         <select name="department"
         class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm">
         @foreach($departments as $dept)
-            <option value="{{ $dept->id }}">{{ $dept->name_ja }}</option>
+        <option value="{{ $dept->id }}">{{ __('departments.' . $dept->code) }}</option>
         @endforeach
         </select>
         <button type="submit"
@@ -89,8 +89,8 @@
         振り分け
         </button>
     </form>
-     </td>
-   </div>
+   </td>
+</div>
 </tr>
         @endforeach
     </tbody>
