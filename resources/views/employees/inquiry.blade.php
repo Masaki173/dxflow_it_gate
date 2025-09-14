@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- CSRF Token -->
+    <!-- CSRF トークン -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Title') }}</title>
 <!-- Scripts -->
@@ -43,18 +43,10 @@
         <div class="card-body">
             <form action="{{ route('inquiry.store') }}" method="post" enctype="multipart/form-data" id="supportForm">
             @csrf
-                <!-- <div class="form-group">
-                    <label>社員名</label>
-                    <input class="form-control" id="name" placeholder="氏名を入力" required></input>
-                </div> -->
                 <div class="form-group">
                     <label>部署</label>
                     <input class="form-control" id=department name="department" placeholder="部署を入力" required></input>
                 </div>
-                <!-- <div class="form-group">
-                    <label for="email">メールアドレス</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="example@example.com" required>
-                </div> -->
                 <div class="form-group">
                     <label>問題の種類は？</label>
                     <select class="form-control" id="issueType" name="issue_type">
